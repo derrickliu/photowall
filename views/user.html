@@ -1,0 +1,45 @@
+<div class="container-fluid" id="userMain">
+	{{#each photos}}
+	<div class="row">
+		<div class="col-xs-12">
+			<h3>{{date}} <a href="#" status="canceledit" class="small btn btn-link">edit</a></h3>
+		</div>
+	</div>
+	<div class="row photo-row">
+		{{#each names}}
+		<div class="col-xs-6 col-sm-3 col-md-2 placeholder" photoid="{{id}}">
+			<img src="{{name}}" alt="" class="img-responsive">
+		</div>
+		{{/each}}
+	</div>
+	{{/each}}
+</div>
+<div class="file-upload-box btn btn-primary">
+	<input type="file" id="photoBtn" accept="image/*" multiple>
+	<span class="glyphicon glyphicon-picture"></span>
+	select photos
+</div>
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Prompt</h4>
+      </div>
+      <div class="modal-body">
+        Delete this photo?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" id="removePhotoBtn">Yes</button>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+	var hasLoadCount = {{hasLoadCount}};
+</script>
+<script src="javascripts/socket.io.js"></script>
+<script src="javascripts/masonry.pkgd.js"></script>
+<script src="javascripts/imagesloaded.pkgd.js"></script>
+<script src="javascripts/user2.js"></script>

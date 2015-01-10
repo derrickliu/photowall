@@ -6,7 +6,10 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var hbs = require('hbs');
 var session = require('express-session');
+
 var multer  = require('multer');
+
+var fs = require('fs');
 
 var routes = require('./routes/index');
 var user = require('./routes/user');
@@ -22,6 +25,8 @@ var store = new mongoStore({
 
 var app = express();
 
+
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.engine('.html',hbs.__express);
@@ -29,12 +34,17 @@ app.set('view engine', 'html');
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(__dirname + '/public/favicon.ico'));
+//
+// var accessLogStream = fs.createWriteStream(__dirname + '/access.log', {flags: 'a'});
+// app.use(logger('combined', {stream: accessLogStream}));
+
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
-app.use(express.static(path.join(__dirname, 'uploads')));
+var cache = 24 * 60 * 60 * 1000;
+app.use(express.static(path.join(__dirname, 'public'),{maxAge: cache}));
+app.use(express.static(path.join(__dirname, 'uploads'),{maxAge: cache}));
 
 app.use(multer({ 
     dest: './uploads/'
@@ -42,12 +52,13 @@ app.use(multer({
     //     return filename.replace(/\W+/g, '-').toLowerCase() + Date.now()
     // }
     // onFileUploadComplete: function(file){
-
+    //     var a = file;
     // }
 }));
 
+
 app.use(session({
-    secret: 'http://localhost/',
+    secret: 'http://localhost:3000',
     store: store
 }));
 
@@ -57,11 +68,13 @@ app.use(function(req, res, next){
 });
 
 app.use('/', routes);
+app.use('/index', routes);
 app.use('/user', user);
 app.use('/login', login);
 app.use('/logout', logout);
 app.use('/reg', reg);
-app.use('/upload', upload);
+// app.use('/upload', upload);
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -93,6 +106,8 @@ app.use(function(err, req, res, next) {
         error: {}
     });
 });
+
+
 
 
 module.exports = app;

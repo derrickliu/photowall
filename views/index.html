@@ -1,0 +1,13 @@
+<div class="container-fluid">
+	<div class="row">
+		{{#each photos}}
+		<div class="col-xs-6 col-sm-3 col-md-2 placeholder" photoid="{{id}}">
+			<img src="{{name}}" alt="" class="img-responsive">
+		</div>
+		{{/each}}
+	</div>
+</div>
+<script src="javascripts/socket.io.js"></script>
+<script src="javascripts/masonry.pkgd.js"></script>
+<script src="javascripts/imagesloaded.pkgd.js"></script>
+<script src="javascripts/index.js"></script>
