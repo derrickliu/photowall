@@ -3,7 +3,7 @@ var router = express.Router();
 var userDB = require('../models/user');
 
 router.get('/', function(req, res) {
-	if(res.locals.user){
+	if(req.session.user){
 		res.redirect('/');
 	}else{
 		res.render('reg', { title: 'Register - Photo Wall' });
@@ -11,6 +11,10 @@ router.get('/', function(req, res) {
 });
 
 router.post('/', function(req, res) {
+	if(req.session.user){
+		res.redirect('/');
+		return;
+	}
 	var email = req.param('email'),
 		password = req.param('password'),
 		passwordConfirm = req.param('passwordConfirm');

@@ -7,8 +7,8 @@ var photoDB = require('../models/photo');
 router.post('/', function(req, res) {
 	if(!req.session.user){
 		res.send({result: -1, msg: 'Please login!!'});
+		return;
 	}
-
 	
 	var path = req.files.photo.path,
 		name = req.files.photo.name,

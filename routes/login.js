@@ -4,7 +4,7 @@ var userDB = require('../models/user');
 
 /* GET login listing. */
 router.get('/', function(req, res) {
-	if(res.locals.user){
+	if(req.session.user){
 		res.redirect('/user');
 	}else{
 		res.render('login', { title: 'Sign in - Photo Wall' });
@@ -12,6 +12,10 @@ router.get('/', function(req, res) {
 });
 
 router.post('/',function(req, res){
+	if(req.session.user){
+		res.send({result: -1, msg: 'is login'});
+		return;
+	}
 	var email = req.param('email'),
 		password = req.param('password');
 	userDB.findByEmail(email,function(err,obj){
