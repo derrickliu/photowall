@@ -22,9 +22,7 @@ $(function(){
 			item.remove();
 		}
 		row.masonry( 'remove', item ).masonry();
-		// row.prepend(div).masonry('prepended',div[0]).imagesLoaded( function() {
-		// 	row.masonry();
-		// });
+		
 	});
 
 	function createItem(name,id){

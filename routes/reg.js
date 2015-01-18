@@ -21,6 +21,7 @@ router.post('/', function(req, res) {
 
 	if(password !== passwordConfirm){
 		res.send({result: -1, msg: 'Please enter the same password as above'});
+		return;
 	}
 	userDB.findByEmail(email,function(err,obj){
 		if(obj !== null){

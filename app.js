@@ -52,13 +52,13 @@ app.use(multer({
     //     return filename.replace(/\W+/g, '-').toLowerCase() + Date.now()
     // }
     // onFileUploadComplete: function(file){
-    //     var a = file;
     // }
 }));
 
 
 app.use(session({
     secret: 'http://localhost:3000',
+    cookie: { maxAge: cache },
     store: store
 }));
 

@@ -1,12 +1,11 @@
 var mongodb = require('./mongodb');
-var Schema = mongodb.mongoose.Schema;
+var Schema = mongodb.Schema;
 var userSchema = new Schema({
-	email: String,
-	password: String,
-	id: Number
+	email: {type: String, index: true},
+	password: String
 });
 
-var User = mongodb.mongoose.model("User", userSchema);
+var User = mongodb.model("User", userSchema);
 var UserDAO = function(){
 	this.User = User;
 };

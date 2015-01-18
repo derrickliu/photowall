@@ -11,10 +11,7 @@
 		var win = $(window),
 			div = $('<div>')
 				.addClass('view-img-box')
-				.css({
-					width: win.width(),
-					height: win.height()
-				})
+
 				.append('<span class="view-close">')
 				.appendTo('body');
 		
@@ -24,7 +21,6 @@
 
 	function bind(){
 		$('.view-close').one('click',close);
-		// $('.view-img-box').on('touch')
 	}
 
 	function close(e){

@@ -6,7 +6,6 @@ var _ = require('underscore-contrib');
 var gm = require('gm');
 
 
-
 function deal(obj){
 	var o = [],
 		date,
@@ -15,12 +14,13 @@ function deal(obj){
 			return b.time - a.time;
 		}),
 		i = 0,
-		j = _obj.length;
+		j = _obj.length,
+		id;
 
 	for(; i < j; i++){
 		date = _obj[i].date;
 		name = _obj[i].name;
-		id = _obj[i].id;
+		id = _obj[i]._id.toString();
 
 		var _o = _.findWhere(o,{date: date});
 		if(_o){
@@ -48,6 +48,7 @@ router.get('/', function(req, res, next) {
 			limit: 10,
 			email: user.email,
 			callback: function(err,obj){
+				if(err) throw err;
 				var _obj = deal(obj);
 				res.render('user', { title: 'user - Photo Wall', photos: _obj, hasLoadCount: obj.length});
 			}
@@ -64,6 +65,7 @@ router.get('/',function(req, res){
 		limit: count,
 		email: res.locals.user.email,
 		callback: function(err,obj){
+			if(err) throw err;
 			var _obj = deal(obj);
 			res.send({
 				info: {
@@ -92,35 +94,31 @@ router.post('/', function(req, res) {
 		date = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate(),
 		time = d.getTime(),
 
-		save = function(id){
+		save = function(){
 			photoDB.save({
 				email: email,
 				name: name, 
 				date: date, 
-				time: time, 
-				id: id
+				time: time
 			},function(err,obj){
 				if(!err){
-					resize(id);
+					sendOk(obj._id.toString());
 				}else{
 					res.send({result: -1, msg: err});
 				}
 			});//保存
 		},
-		resize = function(id){
+		resize = function(){
 			//压缩图片
 			gm(path)
 			.size(function(err,value){
+				if(err) throw err;
 				if(value.width > 640){
 					gm(path)
 					.resize(640)
 					.write(path,function(err){
-						if(err){
-							console.log(err);
-							return;
-						}
-						sendOk(id);
-						
+						if(err) throw err;
+						save();
 					});
 				}
 			});
@@ -135,69 +133,9 @@ router.post('/', function(req, res) {
 					id: id
 				}
 			});
-		},
-		getMaxId = function(){
-			photoDB.getMaxId(function(err,obj){
-				if(err){
-					console.log(err);
-					return;
-				}
-				var id = obj[0] ? (obj[0].id + 1) : 1;
-				save(id);
-			});
-		}
+		};
 
-		getMaxId();
-
-	// photoDB.getMaxId(function(err,obj){
-	// 	if(err){
-	// 		console.log(err);
-	// 		return;
-	// 	}
-	// 	var id = obj[0] ? (obj[0].id + 1) : 1;
-
-	// 	// gm(path)
-	// 	// .identify(function(){
-	// 	// 	debugger;
-	// 	// });
-			
-	// 	//压缩图片
-	// 	gm(path)
-	// 	.size(function(err,value){
-	// 		if(value.width > 640){
-	// 			gm(path)
-	// 			.resize(640)
-	// 			.write(path,function(err){
-	// 				if(err) throw err;
-	// 				//压缩成功后保存
-	// 				photoDB.save({
-	// 						email: email,
-	// 						name: name, 
-	// 						date: date, 
-	// 						time: time, 
-	// 						id: id
-	// 					},function(err,obj){
-	// 					if(!err){
-	// 						//压缩成功后才通知客户端
-	// 						res.send({
-	// 							result: 200, 
-	// 							msg: 'Upload Success!!', 
-	// 							info: {
-	// 								name: name,
-	// 								date: date,
-	// 								id: id
-	// 							}
-	// 						});
-	// 					}else{
-	// 						res.send({result: -1, msg: err});
-	// 					}
-	// 				});//保存
-
-	// 			});//write
-	// 		}
-	// 	});//size
-
-	// });//getMaxId
+	resize();
 	
 });
 
@@ -221,5 +159,24 @@ router.delete('/', function(req, res) {
 		}
 	});
 });
+
+// router.delete('/', function(req, res) {
+// 	if(!req.session.user){
+// 		res.send({result: -1, msg: 'Please login!!'});
+// 		return;
+// 	}
+// 	var id = req.param('id');
+// 	if(!id){
+// 		res.send({result: -1, msg: 'no id'});
+// 	}
+
+// 	photoDB.remove(id, function(err){
+// 		if(err){
+// 			res.send({result: -1, msg: err});
+// 		}else{
+// 			res.send({result: 200, msg: 'remove success!!'});
+// 		}
+// 	});
+// });
 
 module.exports = router;

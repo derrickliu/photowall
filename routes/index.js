@@ -5,23 +5,15 @@ var _ = require('underscore-contrib');
 
 function deal(obj){
 	var o = [],
-		date,
 		name,
-		email,
+		id,
 		i = 0,
 		j = obj.length;
 
 	for(; i < j; i++){
-		date = obj[i].date;
 		name = obj[i].name;
-		email = obj[i].email;
-
-		var _o = _.findWhere(o,{date: date, email: email});
-		if(_o){
-			_o.names.push({name: name});
-		}else{
-			o.push({date: date, email: email, names: [{name: name}]});
-		}
+		id = obj[i]._id.toString();
+		o.push({name: name, id: id});
 	}
 	return o;
 }
@@ -33,8 +25,8 @@ router.get('/', function(req, res, next) {
 	}else{
 		photoDB.Photo.find().sort({time: 'desc'}).limit(10).exec(function(err,obj){
 
-			// var _obj = deal(obj);
-			res.render('index', { title: 'Photo Wall', photos: obj});
+			var _obj = deal(obj);
+			res.render('index', { title: 'Photo Wall', photos: _obj});
 		});
 	}
 });
@@ -44,8 +36,8 @@ router.get('/',function(req, res){
 		count = req.param('count');
 	photoDB.Photo.find().sort({time: 'desc'}).skip(start).limit(count).exec(function(err,obj){
 
-		// var _obj = deal(obj);
-		res.send({info: obj, result: 200, msg: 'get success!!'});
+		var _obj = deal(obj);
+		res.send({info: _obj, result: 200, msg: 'get success!!'});
 	});
 });
 

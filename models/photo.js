@@ -1,14 +1,13 @@
 var mongodb = require('./mongodb');
-var Schema = mongodb.mongoose.Schema;
+var Schema = mongodb.Schema;
 var photoSchema = new Schema({
 	email: String,
 	name: String,
 	date: String,
-	time: Number,
-	id: {type: Number, index: true}
+	time: {type: Number, index: true}
 });
 
-var Photo = mongodb.mongoose.model("Photo", photoSchema);
+var Photo = mongodb.model("Photo", photoSchema);
 var PhotoDAO = function(){
 	this.Photo = Photo;
 };
@@ -16,14 +15,14 @@ var PhotoDAO = function(){
 
 PhotoDAO.prototype.save = function(obj, callback) {
 	var instance = new this.Photo(obj);
-	instance.save(function(err){
-		callback(err);
+	instance.save(function(err,doc){
+		callback(err,doc);
 	});
 };
 
 PhotoDAO.prototype.findByEmail = function(email, callback) {
-	this.Photo.find({email: email},function(err,obj){
-		callback(err,obj)
+	this.Photo.find({email: email},function(err,doc){
+		callback(err,doc)
 	})
 };
 PhotoDAO.prototype.page = function(options) {
@@ -33,14 +32,14 @@ PhotoDAO.prototype.page = function(options) {
 		.limit(options.limit)
 		.exec(options.callback);
 };
-PhotoDAO.prototype.getMaxId = function(callback) {
-	this.Photo.find()
-		.sort({id: 'desc'})
-		.limit(1)
-		.exec(callback);
-};
+// PhotoDAO.prototype.getMaxId = function(callback) {
+// 	this.Photo.find()
+// 		.sort({id: 'desc'})
+// 		.limit(1)
+// 		.exec(callback);
+// };
 PhotoDAO.prototype.remove = function(id,callback) {
-	this.Photo.remove({id: id},function(err){
+	this.Photo.remove({_id: id},function(err){
 		callback(err);
 	});
 };
