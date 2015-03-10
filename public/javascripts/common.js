@@ -50,11 +50,15 @@
 		$.util.hideLoading();
 	})
 	.ajaxError(function(event, xhr, settings, thrownError) {
-		$.util.showError(thrownError);
+		//
+		$.util.showError(thrownError || event.type);
 	})
 	.ajaxSuccess(function(event, xhr, settings, json) {
 		
 	});
-	
+	applicationCache.addEventListener("updateready", function(){
+		//refresh
+	    location.reload();
+	});
 	
 })(jQuery);

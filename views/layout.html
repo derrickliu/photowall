@@ -1,13 +1,26 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-CN"><!--   manifest="cache.appcache"-->
   <head>
     <title>{{title}}</title>
     <meta name="viewport" content="width=device-width, user-scalable=no">
-    <link rel="stylesheet" href="/stylesheets/bootstrap.min.css">
-    <link rel='stylesheet' href='/stylesheets/style.css' />
-    <script src="/javascripts/jquery.js"></script>
-    <script src="/javascripts/bootstrap.min.js"></script>
-    <script src="/javascripts/common.js"></script>
+    <!-- <link rel="stylesheet" href="/stylesheets/bootstrap.min.css?385b964b">
+    <link rel='stylesheet' href='/stylesheets/style.css?8e91f010' />
+    <script src="/javascripts/jquery.js?e40ec216"></script>
+    <script src="/javascripts/bootstrap.min.js?abda8436"></script>
+    <script src="/javascripts/common.js?aa94b729"></script> -->
+    <script src="/javascripts/loadcache.js?7832932d"></script>
+    <script>
+    (function(){
+      var s = [
+        'stylesheets/bootstrap.min.css?385b964b',
+        'stylesheets/style.css?8e91f010',
+        'javascripts/jquery.js?e40ec216',
+        'javascripts/bootstrap.min.js?abda8436',
+        'javascripts/common.js?aa94b729'
+      ];
+      loadCache(s);
+    })();
+    </script>
   </head>
   <body>
     <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">

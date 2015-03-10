@@ -88,7 +88,8 @@ router.post('/', function(req, res) {
 	}
 	
 	var path = req.files.photo.path,
-		name = req.files.photo.name,
+		_name = req.files.photo.name,
+		name = _name.split('.')[0] + '_200.' + _name.split('.')[1],
 		email = req.session.user.email,
 		d = new Date(),
 		date = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate(),
@@ -113,13 +114,22 @@ router.post('/', function(req, res) {
 			gm(path)
 			.size(function(err,value){
 				if(err) throw err;
+				
+				var _path = path.split('.')[0] + '_200.' + path.split('.')[1];
+				gm(path)
+				.resize(200)
+				.write(_path,function(err){
+					if(err) throw err;
+					save();
+				});
+
 				if(value.width > 640){
 					gm(path)
 					.resize(640)
 					.write(path,function(err){
 						if(err) throw err;
-						save();
 					});
+
 				}
 			});
 		},
@@ -134,7 +144,7 @@ router.post('/', function(req, res) {
 				}
 			});
 		};
-
+	// save();	
 	resize();
 	
 });

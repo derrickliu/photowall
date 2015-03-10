@@ -36,11 +36,43 @@
     </div>
   </div>
 </div>
+
+
+<div id="singleFileUpload" class="view-img-box">
+  <div class="u-btn-bar">
+    <button id="singleUploadBtn" class="btn btn-primary">上传</button>
+    <button id="singleUploadClose" class="btn btn-info">取消</button>
+  </div>
+  <img id="scaleImg">
+  <i></i>
+</div>
 <script>
 	var hasLoadCount = {{hasLoadCount}};
 </script>
-<script src="javascripts/socket.io.js"></script>
-<script src="javascripts/masonry.pkgd.js"></script>
-<script src="javascripts/imagesloaded.pkgd.js"></script>
-<script src="javascripts/user2.js"></script>
-<script src="javascripts/slide.js"></script>
+<!-- <script src="javascripts/socket.io.js?40a27951"></script>
+<script src="javascripts/masonry.pkgd.js?c9e4cb76"></script>
+<script src="javascripts/imagesloaded.pkgd.js?71a6605a"></script>
+<script src="javascripts/hammer.js?3f35188e"></script> -->
+<!-- <script src="javascripts/canvas2blob.js?c64e9a1a"></script> -->
+<!-- <script src="javascripts/browser.js?dad31169"></script>
+<script src="javascripts/jpegMeta.js?fd26fcc3"></script>
+<script src="javascripts/photoCompress.js?f42b6072"></script>
+<script src="javascripts/user2.js?173b2a3d"></script>
+<script src="javascripts/slide.js?01cdb461"></script> -->
+
+<script>
+(function(){
+  var s = [
+    'javascripts/socket.io.js?40a27951',
+    'javascripts/masonry.pkgd.js?c9e4cb76',
+    'javascripts/imagesloaded.pkgd.js?71a6605a',
+    'javascripts/hammer.js?3f35188e',
+    'javascripts/browser.js?dad31169',
+    'javascripts/jpegMeta.js?fd26fcc3',
+    'javascripts/photoCompress.js?f42b6072',
+    'javascripts/slide.js?01cdb461',
+    'javascripts/user2.js?173b2a3d'
+  ];
+  loadCache(s);
+})();
+</script>

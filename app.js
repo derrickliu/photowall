@@ -18,6 +18,7 @@ var logout = require('./routes/logout');
 var reg = require('./routes/reg');
 var upload = require('./routes/upload');
 
+
 var mongoStore = require("connect-mongo")(session);
 var store = new mongoStore({
     db: "session"
@@ -45,7 +46,7 @@ app.use(cookieParser());
 var cache = 24 * 60 * 60 * 1000;
 app.use(express.static(path.join(__dirname, 'public'),{maxAge: cache}));
 app.use(express.static(path.join(__dirname, 'uploads'),{maxAge: cache}));
-
+app.use(express.static(path.join(__dirname, 'cache'),{'Content-Type': 'text/cache-manifest'}));
 app.use(multer({ 
     dest: './uploads/'
     // rename: function(fieldname, filename){
@@ -54,6 +55,7 @@ app.use(multer({
     // onFileUploadComplete: function(file){
     // }
 }));
+
 
 
 app.use(session({
@@ -73,7 +75,8 @@ app.use('/user', user);
 app.use('/login', login);
 app.use('/logout', logout);
 app.use('/reg', reg);
-// app.use('/upload', upload);
+app.use('/upload', upload);
+
 
 
 // catch 404 and forward to error handler

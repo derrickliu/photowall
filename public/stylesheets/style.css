@@ -27,7 +27,7 @@ body{
 }
 .remove,
 .view-close{
-	background: url(../images/remove.png?v2) no-repeat;
+	background: url(../images/remove.png) no-repeat;
 }
 .remove{
 	background-size: 24px auto;
@@ -112,4 +112,42 @@ body{
 	/*max-height: 100%;*/
 	/*max-width: 100%;*/
 }
+.view-img-box i{
+	display: inline-block;
+	height: 100%;
+	vertical-align: middle;
+}
+#scaleImg{
+	max-width: 100%;
+}
+#singleFileUpload{
+	display: none;
+}
+.u-btn-bar{
+	position: absolute;
+	width: 100px;
+	height: 100%;
+	left: 0;
+	top: 0;
+}
+.u-btn-bar button{
+	margin: 10px auto;
+	width: 80px;
+}
+#singleUploadBtn{
+	position: absolute;
+	top: 10px;
+	left: 10px;
+	margin: 0;
+	z-index: 101;
+}
+#singleUploadClose{
+	position: absolute;
+	top: 60px;
+	left: 10px;
+	margin: 0;
+	z-index: 101;
+}
+
+
 
