@@ -37,8 +37,13 @@ function deal(obj){
 router.get('/', function(req, res, next) {
 	var user = req.session.user;
 	if(!user){
-		res.redirect('/login');
-		return;
+		// res.redirect('/login');
+		// return;
+		// 为了演示方便，先去掉登录要求
+		user = {
+			email: '6@qq.com'
+		};
+		
 	}
 	if(req.param('start') && req.param('count')){
 		next();
@@ -58,12 +63,15 @@ router.get('/', function(req, res, next) {
 
 //分批获取图片
 router.get('/',function(req, res){
-	var start = req.param('start'),
+	var user = {
+			email: '6@qq.com'
+		},
+		start = req.param('start'),
 		count = req.param('count');
 	photoDB.page({
 		start: start,
 		limit: count,
-		email: res.locals.user.email,
+		email: user.email,
 		callback: function(err,obj){
 			if(err) throw err;
 			var _obj = deal(obj);
@@ -82,15 +90,19 @@ router.get('/',function(req, res){
 //upload
 //
 router.post('/', function(req, res) {
-	if(!req.session.user){
-		res.send({result: -1, msg: 'Please login!!'});
-		return;
-	}
-	
+	// if(!req.session.user){
+	// 	res.send({result: -1, msg: 'Please login!!'});
+	// 	return;
+	// }
+	var user = {
+		email: '6@qq.com'
+	};
+
+
 	var path = req.files.photo.path,
 		_name = req.files.photo.name,
 		name = _name.split('.')[0] + '_200.' + _name.split('.')[1],
-		email = req.session.user.email,
+		email = user.email,
 		d = new Date(),
 		date = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate(),
 		time = d.getTime(),
@@ -152,10 +164,10 @@ router.post('/', function(req, res) {
 //delete
 //
 router.delete('/', function(req, res) {
-	if(!req.session.user){
-		res.send({result: -1, msg: 'Please login!!'});
-		return;
-	}
+	// if(!req.session.user){
+	// 	res.send({result: -1, msg: 'Please login!!'});
+	// 	return;
+	// }
 	var id = req.param('id');
 	if(!id){
 		res.send({result: -1, msg: 'no id'});

@@ -8,13 +8,17 @@ var crypto = require('crypto');
 
 
 router.post('/', function(req, res) {
-	if(!req.session.user){
-		res.send({result: -1, msg: 'Please login!!'});
-		return;
-	}
+	// if(!req.session.user){
+	// 	res.send({result: -1, msg: 'Please login!!'});
+	// 	return;
+	// }
+
+	var user = {
+		email: '6@qq.com'
+	};
 	var base64Data = req.param('photo');
 	var dataBuffer = new Buffer(base64Data, 'base64');
-	var email = req.session.user.email,
+	var email = user.email,
 		d = new Date(),
 		date = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate(),
 		time = d.getTime(),
