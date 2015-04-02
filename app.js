@@ -40,6 +40,7 @@ app.set('view engine', 'html');
 // app.use(logger('combined', {stream: accessLogStream}));
 
 app.use(logger('dev'));
+app.use(bodyParser.json({limit:'100mb'}));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
