@@ -40,14 +40,14 @@ app.set('view engine', 'html');
 // app.use(logger('combined', {stream: accessLogStream}));
 
 app.use(logger('dev'));
+app.use(bodyParser({limit:'100mb'}));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 var cache = 24 * 60 * 60 * 1000;
 app.use(express.static(path.join(__dirname, 'public'),{maxAge: cache}));
 app.use(express.static(path.join(__dirname, 'uploads'),{maxAge: cache}));
 app.use(express.static(path.join(__dirname, 'cache'),{'Content-Type': 'text/cache-manifest'}));
-app.use(multer({ 
+app.use(multer({
     dest: './uploads/'
     // rename: function(fieldname, filename){
     //     return filename.replace(/\W+/g, '-').toLowerCase() + Date.now()
